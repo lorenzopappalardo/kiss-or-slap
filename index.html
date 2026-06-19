@@ -10,9 +10,25 @@ body{
     font-family: Arial, sans-serif;
     text-align:center;
     background:#f5f5f5;
+    margin:0;
+    padding:20px;
 }
 
-h1{ margin-top:20px; }
+h1{
+    margin-top:10px;
+}
+
+h2{
+    margin-bottom:10px;
+    color:#333;
+}
+
+img{
+    width:300px;
+    max-width:90%;
+    border-radius:15px;
+    margin:10px 0;
+}
 
 .container{
     position:relative;
@@ -23,8 +39,6 @@ h1{ margin-top:20px; }
 
 svg{
     width:100%;
-    height:auto;
-    transform: rotate(0deg);
     transition: transform 5s cubic-bezier(.17,.67,.12,.99);
 }
 
@@ -64,11 +78,12 @@ button{
 
 <h1>🎡 Kiss or Slap</h1>
 
-<img src="https://via.placeholder.com/300x200.png?text=La+Tua+Foto">
+<h2>Should he marry her?? 💍</h2>
+
+<img src="coppia.jpg" alt="Coppia">
 
 <div class="container">
     <div class="pointer"></div>
-
     <svg id="wheel" viewBox="0 0 500 500"></svg>
 </div>
 
@@ -105,20 +120,18 @@ names.forEach((name, i) => {
 
     const path = document.createElementNS("http://www.w3.org/2000/svg","path");
 
-    const d = `
+    path.setAttribute("d", `
         M ${center} ${center}
         L ${x1} ${y1}
         A ${radius} ${radius} 0 0 1 ${x2} ${y2}
         Z
-    `;
+    `);
 
-    path.setAttribute("d", d);
     path.setAttribute("fill", colors[i]);
     path.setAttribute("stroke","white");
 
     svg.appendChild(path);
 
-    // testo
     const textAngle = start + slice/2;
     const tx = center + 140 * Math.cos(Math.PI * textAngle/180);
     const ty = center + 140 * Math.sin(Math.PI * textAngle/180);
@@ -129,7 +142,6 @@ names.forEach((name, i) => {
     text.setAttribute("text-anchor","middle");
     text.setAttribute("font-size","16");
     text.setAttribute("font-weight","bold");
-    text.setAttribute("fill","#000");
     text.textContent = name;
 
     svg.appendChild(text);
@@ -138,21 +150,22 @@ names.forEach((name, i) => {
 let rotation = 0;
 
 function spin(){
+
     const winner = Math.floor(Math.random()*names.length);
 
     const anglePerSlice = 360 / names.length;
 
-    const targetAngle =
+    const target =
         360 * 6 +
-        (360 - (winner * anglePerSlice) - anglePerSlice/2);
+        (360 - winner * anglePerSlice - anglePerSlice/2);
 
-    rotation += targetAngle;
+    rotation += target;
 
     svg.style.transform = `rotate(${rotation}deg)`;
 
     setTimeout(()=>{
         document.getElementById("result").innerHTML =
-        "✨ Ha vinto: " + names[winner] + " ✨";
+        "✨ Risultato: " + names[winner] + " ✨";
     },5000);
 }
 </script>
